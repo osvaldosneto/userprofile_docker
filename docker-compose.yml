@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  backend:
+    restart: always
+    image: osvaldosneto/userprofile-back:latest
+    container_name: userprofile-back
+    ports:
+      - "8080:8080"
+    networks:
+      - userprofile-network
+    
+  frontend:
+    restart: always
+    image: osvaldosneto/userprofile-front:latest
+    container_name: userprofile-front
+    ports:
+      - "80:80"
+    networks:
+      - userprofile-network
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+          cpus: "0.5"
+    environment:
+      - NODE_OPTIONS=--max_old_space_size=512
+
+networks:
+  userprofile-network:
+    driver: bridge
